@@ -29,20 +29,20 @@ def wordsearcher(input):
 	for i in range(len(filelines)):
 		filelines[i]=filelines[i].strip()
 
-	#get grid dimensions
+	# get grid dimensions
 	gridDim = filelines[0].split()
 	numRows = int(gridDim[0])
 	numCols = int(gridDim[1])
 
-	#make grid, which is lines 1 to height of grid
+	# make grid, which is lines 1 to height of grid in the inputted document
 	grid = []
 	for i in range(1,numRows+1):
 		grid.append(filelines[i])
 
-	#wrap?
+	# wrap?
 	wrap = not ('NO' in filelines[numRows+1])
 
-	#make word list
+	# make word list
 	numWords = filelines[numRows+2]
 	words = []
 	locations = OrderedDict()
@@ -184,7 +184,7 @@ def wordsearcher(input):
 	vertPre.update(top_diag_search(vFlipped, wrap))
 	vertPre.update(left_diag_search(vFlipped, wrap))
 	for k in vertPre:
-		#invert the row coordinates
+		#invert the row coordinates to undo the flip
 		v = vertPre[k]
 		locations[k] = [[numRows-v[0][0]-1, v[0][1]],[numRows-v[1][0]-1, v[1][1]]]
 
@@ -196,8 +196,8 @@ def wordsearcher(input):
 	horzPre.update(top_diag_search(hFlipped, wrap))
 	horzPre.update(left_diag_search(hFlipped, wrap))
 	for k in horzPre:
+		#invert the column coordinates to undo the flip
 		v=horzPre[k]
-		#invert the column coordinates
 		locations[k] = [[v[0][0],numCols-v[0][1]-1],[v[1][0], numCols-v[1][1]-1]]
 
 	
@@ -210,5 +210,4 @@ def wordsearcher(input):
 			print v
 
 import sys
-
 wordsearcher(sys.argv[1])
